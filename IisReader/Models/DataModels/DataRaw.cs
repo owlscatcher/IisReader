@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IisReader.Models.DataModels;
 
-public partial class DataRaw
+public partial class DataRaw : NotifyPropertyChanged
 {
     public int Layer { get; set; }
 

@@ -1,7 +1,12 @@
 ﻿using IisReader.Commands;
 using IisReader.Data;
 using IisReader.Models;
+using IisReader.Models.DataModels;
+using IisReader.Repository;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Channels;
 using System.Windows;
 using System.Windows.Input;
 
@@ -68,6 +73,7 @@ namespace IisReader.ViewModels
         }
 
         private string _actualWindiowState = WindowStateName.Noraml;
+
         public string ActualWindiowState
         {
             get { return _actualWindiowState; }
@@ -81,6 +87,71 @@ namespace IisReader.ViewModels
         public bool IsThemeDark { get; set; } = false;
         public bool IsMaximize { get; set; } = false;
 
+        private ObservableCollection<Item> items;
+        public ObservableCollection<Item> Items
+        {
+            get => items;
+            set { items = value; OnPropertyChanged(); }
+        }
+        public ObservableCollection<DataRaw> DataRaws { get; set; }
+
+        public System.Timers.Timer GridUpdateTimer { get; set; } = new()
+        {
+            Enabled = true,
+            Interval = 1000,
+            AutoReset = true
+        };
+
+        public HomeViewModel()
+        {
+            Items = GetItems();
+
+            foreach (var item in Items)
+                item.SetNormalizeDateTime();
+
+            GridUpdateTimer.Elapsed += GridUpdateTimerElapsed;
+        }
+
+        private void GridUpdateTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        {
+            var ctx = new IisdbContext();
+            Items = GetItems();
+
+            foreach (var item in Items)
+            {
+                item.SetNormalizeDateTime();
+                item.Value = ctx.DataRaws.Where(x => x.ArchiveItemid == item.Id && x.SourceTime == item.LastTime).FirstOrDefault().Value;
+            }
+        }
+
+        private ObservableCollection<Item> GetItems()
+        {
+            var repo = new ItemsRepository(new IisdbContext());
+            return new ObservableCollection<Item>(repo.GetItems()
+                .OrderBy(x => x.Id));
+        }
+
+        private ObservableCollection<DataRaw> GetDataRaws()
+        {
+            var repo = new DataRawsRepository(new IisdbContext());
+            return new ObservableCollection<DataRaw>(repo.GetDataRaws()
+                .OrderBy(x => x.ArchiveItemid)
+                .ThenBy(n => n.SourceTime));
+        }
+
+        public ICommand LoadItems
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                    Items = GetItems();
+
+                    foreach(var item in Items)
+                        item.SetNormalizeDateTime();
+                });
+            }
+        }
         public ICommand CloseWindow
         {
             get

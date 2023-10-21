@@ -28,7 +28,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" Name="bar" />
-            <RowDefinition Height="*" Name="body"/>
+            <!--<RowDefinition Height="100" Name="toolPannel"/>-->
+            <RowDefinition Height="*" Name="body" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -53,7 +54,7 @@
                                     VerticalAlignment="Center" 
                                     HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
-                                <materialDesign:PackIcon Kind="Counter"  Margin="0 0 5 0"/>
+                                <materialDesign:PackIcon Kind="Theme"  Margin="0 0 5 0"/>
                                 <TextBlock Text="Theme"/>
                             </StackPanel>
                         </TextBlock>
@@ -67,7 +68,7 @@
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
-                          <materialDesign:PackIcon Kind="Counter"  Margin="0 0 5 0"/>
+                          <materialDesign:PackIcon Kind="Gear"  Margin="0 0 5 0"/>
                           <TextBlock Text="IIS Reader"/>
                         </StackPanel>
                     </TextBlock>
@@ -115,8 +116,49 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <!--<Grid Grid.Row="1">
             <materialDesign:Card Padding="5" Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <Button 
+                        Command="{Binding LoadItems}" CommandParameter="{Binding ElementName=HomeWindow}">
+                        <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                              <materialDesign:PackIcon Kind="Download"  Margin="0 0 5 0"/>
+                              <TextBlock Text="Load Items"/>
+                            </StackPanel>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>-->
+
+        <Grid Grid.Row="2">
+            <materialDesign:Card Padding="5" Margin="5">
+                <DataGrid x:Name="blowoutReportDataGrid" 
+                                              ItemsSource="{Binding Items}"
+                                              IsReadOnly="True"
+                                              CanUserAddRows="False"
+                                              AutoGenerateColumns="False"
+                                              GridLinesVisibility="Horizontal"
+                                              CanUserSortColumns="False"
+                                              CanUserDeleteRows="False"
+                                              CanUserResizeRows="False">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                        <DataGridTextColumn Header="PID" Binding="{Binding ProjectId}" />
+                        <DataGridTextColumn Header="IID" Binding="{Binding Itemid}" />
+                        <DataGridTextColumn Header="Path" Binding="{Binding Path}" />
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Начало" Binding="{Binding ConvertedFirstTime, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}"/>
+                        <DataGridTextColumn Header="Конец"  Binding="{Binding ConvertedLastTime, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}"/>
+                        <DataGridTextColumn Header="Значение"  Binding="{Binding Value, StringFormat={}{0:E3}}" />
+                        <DataGridTextColumn Header="Тип"  Binding="{Binding Type}" />
+                        <DataGridTextColumn Header="Кол-во"  Binding="{Binding Count}" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </materialDesign:Card>
         </Grid>
     </Grid>
