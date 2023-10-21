@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IisReader", "IisReader\IisReader.csproj", "{A257461B-DBA4-41B6-83E9-E7619D571A9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A257461B-DBA4-41B6-83E9-E7619D571A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A257461B-DBA4-41B6-83E9-E7619D571A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A257461B-DBA4-41B6-83E9-E7619D571A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A257461B-DBA4-41B6-83E9-E7619D571A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {69F6B992-58DF-4044-B9C3-112BC4CEF39B}
+	EndGlobalSection
+EndGlobal
