@@ -135,16 +135,16 @@
         </Grid>-->
 
         <Grid Grid.Row="2">
-            <materialDesign:Card Padding="5" Margin="5">
+            <materialDesign:Card Padding="0" Margin="5">
                 <DataGrid x:Name="blowoutReportDataGrid" 
-                                              ItemsSource="{Binding Items}"
-                                              IsReadOnly="True"
-                                              CanUserAddRows="False"
-                                              AutoGenerateColumns="False"
-                                              GridLinesVisibility="Horizontal"
-                                              CanUserSortColumns="False"
-                                              CanUserDeleteRows="False"
-                                              CanUserResizeRows="False">
+                          ItemsSource="{Binding Items}"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="Horizontal"
+                          CanUserSortColumns="False"
+                          CanUserDeleteRows="False"
+                          CanUserResizeRows="False">
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" />

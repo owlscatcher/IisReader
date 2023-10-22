@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
+using IisReader.Helpers;
 using IisReader.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +25,26 @@ public partial class IisdbContext : DbContext
     public virtual DbSet<SysProp> SysProps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=192.168.1.60;Database=iisdb;Username=iis;Password=shieldadm");
+    {
+        var _host = EnvironmentHelper.GetEnvirovmentVariable("CLIENT_HOST");
+        var _username = EnvironmentHelper.GetEnvirovmentVariable("CLIENT_USERNAME");
+        var _pswd = EnvironmentHelper.GetEnvirovmentVariable("CLIENT_PSWD");
+        var _database = EnvironmentHelper.GetEnvirovmentVariable("CLIENT_DATABASE");
+
+        var connectionStringBuilder = new Npgsql.NpgsqlConnectionStringBuilder
+        {
+            Host = _host,
+            Username = _username,
+            Password = _pswd,
+            Database = _database
+        };
+
+        optionsBuilder.UseNpgsql(connectionStringBuilder.ConnectionString,
+               options => options.EnableRetryOnFailure(maxRetryCount: 100));
+
+        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.LogTo(message => Debug.WriteLine(message));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
